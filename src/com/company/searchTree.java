@@ -1,13 +1,14 @@
 package com.company;
 
 public class searchTree {
-    stateNode root;
+    StateNode root;
 
-    searchTree(stateNode root){
+    public searchTree(StateNode root){
         this.root = root;
     }
 
     public void generateChildren(){
 
     }
+
 }
