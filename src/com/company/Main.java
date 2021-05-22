@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Main {
@@ -36,9 +37,9 @@ public class Main {
         int [] positions = bb.boardToPositionsList();
         System.out.println(Arrays.toString(positions));
        // bb.printBoard();
-int [] freePos = {0, 1, 2, 3, 4, 5, 6, 7};
+//ArrayList<Integer> freePos = {0, 1, 2, 3, 4, 5, 6, 7};
         searchTree ss = new searchTree(positions);
-        ss.root.generateChildren(0, freePos);
+        ss.root.generateChildren(0);
 
 
     }
