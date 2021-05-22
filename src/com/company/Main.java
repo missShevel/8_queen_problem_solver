@@ -4,7 +4,8 @@ import java.util.Arrays;
 
 public class Main {
 
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws CloneNotSupportedException{
 	// write your code here
         int [] pos = {2,4,5,7,0,1,3,6} ;
 
@@ -27,21 +28,19 @@ public class Main {
 
         Board bb = new Board(mat);
         bb.printBoard();
+        System.out.println(Arrays.toString(bb.boardToPositionsList()));
         System.out.println("_______________________");
-        bb.boardToPositionsList(mat);
+
+
         bb.rowsInsert();
-        bb.printBoard();
+        int [] positions = bb.boardToPositionsList();
+        System.out.println(Arrays.toString(positions));
+       // bb.printBoard();
+int [] freePos = {0, 1, 2, 3, 4, 5, 6, 7};
+        searchTree ss = new searchTree(positions);
+        ss.root.generateChildren(0, freePos);
+
 
     }
 
-//         * for situation like this [Q Q Q Q - - - -]
-//            *                         [Q Q Q - - - - -]
-//            *                         [Q - - - - - - -]
-//            *                         [- - - - - - - -]
-//            *                         [- - - - - - - -]
-//            *                         [- - - - - - - -]
-//            *                         [- - - - - - - -]
-//            *                         [- - - - - - - -]
-//            * put figures which are on the same row to separate ones
-//     * (checkRows -- > rowInsert)
 }

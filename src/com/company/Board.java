@@ -52,7 +52,6 @@ public class Board {
         return true;
     }
 
-
     private ArrayList<Integer> findIndexesToBePlacedInFreeRows(){
         ArrayList<Integer> indexes = new ArrayList<>();
         if(!this.checkRows()){
@@ -74,6 +73,7 @@ public class Board {
         }
         return indexes;
     }
+
     private boolean checkRows() {
         int queensPerRow = 0;
         for (int i = 0; i < 8; i++) {
@@ -89,6 +89,7 @@ public class Board {
         }
         return true;
     }
+
     private boolean checkIfRowHasMoreThanOneQueen(int[] row){
         int c = 0;
         for (int i = 0; i < 8; i++) {
@@ -99,37 +100,12 @@ public class Board {
         return (c > 1);
     }
 
-    /** TODO:
-     * [done]check whether all queens are on the board (should be 8)
-     *------------------------------------------------------------------------
-     *
-     *------------------------------------------------------------------------
-     * for situation like this [Q Q Q Q - - - -]
-     *                         [Q Q Q - - - - -]
-     *                         [Q - - - - - - -]
-     *                         [- - - - - - - -]
-     *                         [- - - - - - - -]
-     *                         [- - - - - - - -]
-     *                         [- - - - - - - -]
-     *                         [- - - - - - - -]
-     * put figures which are on the same row to separate ones
-     * (checkRows -- > rowInsert)
-     *------------------------------------------------------------------------
-     public void rowInsert(int[][] matrixPositions){
-     int [][] improvedMatrix = new int [8][8];
+    public int[] boardToPositionsList(){
 
-     }
-
-     public boolean checkRows(int[][] matrixPositions){
-
-     }
-     -------------------------------------------------------------------------
-     */
-    public int[] boardToPositionsList(int [][]positionMatrix){
         int [] figuresPositions = new int[8];
-        for(int i = 0; i < positionMatrix.length; i++){
-            for(int j = 0; j < positionMatrix.length; j++){
-                if(positionMatrix[i][j] == 0) continue;
+        for(int i = 0; i < this.board.length; i++){
+            for(int j = 0; j < this.board.length; j++){
+                if(this.board[i][j] == 0) continue;
                 figuresPositions[i] = j;
             }
         }
