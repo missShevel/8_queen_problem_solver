@@ -1,9 +1,6 @@
 package com.company;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 import static com.company.StateNode.buildRoot;
 
@@ -53,32 +50,32 @@ public class searchTree {
         return true;
     }
 
-    public Queue<StateNode> BFS(StateNode root, int depth, Queue<StateNode> queue) throws CloneNotSupportedException {
+    public LinkedList<StateNode> BFS(StateNode root, int depth, Queue<StateNode> queue, LinkedList<StateNode> path) throws CloneNotSupportedException {
        // int depth = 0;
         if (checkState(root)) {
-            queue.add(root);
-            return queue;
+            path.add(root);
+            return path;
         }
         if(queue.isEmpty()) {
             queue.add(root);
         }
         while (!queue.isEmpty()) {
-            StateNode v = queue.remove();
+            StateNode v = queue.poll();
+            v.generateChildren(depth);
+            path.add(v);
             if (checkState(v)) {
                // queue.add(v);
-                return queue;
+                return path;
             }
-            v.generateChildren(depth);
 
-            depth++;
             for (StateNode child : v.children) {
                 queue.add(child);
 
             }
-            BFS(queue.peek(), depth, queue);
-
         }
-        return queue;
+        depth++;
+        BFS(queue.poll(), depth, queue, path);
+        return path;
     }
 }
     /** TODO:

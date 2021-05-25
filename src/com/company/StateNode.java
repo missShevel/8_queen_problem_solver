@@ -1,8 +1,6 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 
 public class StateNode implements Cloneable {
     int[] positions;
@@ -52,7 +50,7 @@ public class StateNode implements Cloneable {
     public void generateChildren(int queenIndex) throws CloneNotSupportedException {
 
         ArrayList<Integer> freePositions = findFreePositions(queenIndex);
-        freePositions.remove((Object) queenIndex);
+
        // int childrenCounter = 0;
 
         for (int positionNumber : freePositions) {
@@ -73,18 +71,37 @@ public class StateNode implements Cloneable {
         return listOfPositions;
     }
 
-    private ArrayList<Integer> findFreePositions(int indexOfQueenToBePlaced) {
+    public ArrayList<Integer> findFreePositions(int indexOfQueenToBePlaced) {
+        ArrayList<Integer> freePositions1 = new ArrayList<>();
+        ArrayList<Integer> freePositions = new ArrayList<>();
         ArrayList<Integer> listOfPositions = generate();
-        ArrayList<Integer> positionsUnderAttack = new ArrayList<>();
+        int s = listOfPositions.size();
+        Set<Integer> positionsUnderAttack = new HashSet<>();
         for (int i = 0; i < indexOfQueenToBePlaced; i++) {
             positionsUnderAttack.add(this.positions[i] + indexOfQueenToBePlaced - i);
-            for (int j = 0; j < listOfPositions.size(); j++) {
-                if (listOfPositions.get(j).equals(positionsUnderAttack.get(i))) {
-                    listOfPositions.remove((Object)j);
-                }
+            positionsUnderAttack.add(this.positions[i] - indexOfQueenToBePlaced - i);
+
+        }
+          for(Integer avalPos : listOfPositions){
+              if(!positionsUnderAttack.contains(avalPos)){
+                  freePositions1.add(avalPos);
+              }
+          }
+          for(int j = 0; j < freePositions1.size(); j++){
+              for(int k = 0; k < indexOfQueenToBePlaced; k++){
+                  if(freePositions1.get(j) == this.positions[k]){
+                      positionsUnderAttack.add(freePositions1.get(j));
+                  }
+              }
+          }
+        for(Integer avalPos : listOfPositions){
+            if(!positionsUnderAttack.contains(avalPos)){
+                if(avalPos != this.positions[indexOfQueenToBePlaced])
+                freePositions.add(avalPos);
             }
         }
-        return listOfPositions;
+
+        return freePositions;
 
     }
 
