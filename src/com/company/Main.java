@@ -2,13 +2,15 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Main {
 
 
     public static void main(String[] args) throws CloneNotSupportedException{
 	// write your code here
-        int [] pos = {2,4,5,7,0,1,3,6} ;
+        int [] pos = {0,6,2,7,1,4,0,5} ;
 
         Board b = new Board();
        // b.printBoard();
@@ -38,8 +40,10 @@ public class Main {
         System.out.println(Arrays.toString(positions));
        // bb.printBoard();
 //ArrayList<Integer> freePos = {0, 1, 2, 3, 4, 5, 6, 7};
-        searchTree ss = new searchTree(positions);
-        ss.root.generateChildren(0);
+        searchTree ss = new searchTree(pos);
+        Queue<StateNode> q = new LinkedList<>();
+       // ss.root.generateChildren(0);
+        System.out.println(ss.BFS(ss.root, 0, q));
 
 
     }
