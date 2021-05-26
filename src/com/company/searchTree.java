@@ -79,20 +79,6 @@ public class searchTree {
         }
     }
 
-    public LinkedList<StateNode> recreatePath(StateNode state){
-        LinkedList<StateNode> path = new LinkedList<>();
-        if(state == null){
-            return path;
-        }
-        path.add(state);
-        while(state.parent != null) {
-            path.add(state.parent);
-            state = state.parent;
-        }
-        path.add(state);
-        return path;
-    }
-
     public DLSReturn LDFS(int max_depth, StateNode root) throws CloneNotSupportedException {
         if(checkState(root)){
             return new DLSReturn(root, DLSResult.SOLUTION);
@@ -144,6 +130,33 @@ public class searchTree {
     private enum DLSResult {
         SOLUTION, CUTOFF, FAILURE
     }
+
+    public DLSReturn IDS(StateNode root) throws CloneNotSupportedException {
+        DLSReturn cutoff = new DLSReturn(DLSResult.CUTOFF);
+        for (int i = 1; i < Integer.MAX_VALUE; i++){
+            DLSReturn result = LDFS(i, root);
+            if(result.getResult() != cutoff.getResult()){
+                return result;
+            }
+        }
+        return new DLSReturn(DLSResult.FAILURE);
+    }
+
+    public LinkedList<StateNode> recreatePath(StateNode state){
+        LinkedList<StateNode> path = new LinkedList<>();
+        if(state == null){
+            return path;
+        }
+        path.add(state);
+        while(state.parent != null) {
+            path.add(state.parent);
+            state = state.parent;
+        }
+        path.add(state);
+        return path;
+    }
+
+
 }
     /** TODO:
 

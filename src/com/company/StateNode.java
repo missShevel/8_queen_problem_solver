@@ -81,6 +81,7 @@ int queenIndex = this.depth;
         ArrayList<Integer> listOfPositions = generate();
         int s = listOfPositions.size();
         Set<Integer> positionsUnderAttack = new HashSet<>();
+
         for (int i = 0; i < indexOfQueenToBePlaced; i++) {
             positionsUnderAttack.add(this.positions[i] + indexOfQueenToBePlaced - i);
             positionsUnderAttack.add(this.positions[i] - indexOfQueenToBePlaced - i);
@@ -98,6 +99,7 @@ int queenIndex = this.depth;
                   }
               }
           }
+
         for(Integer avalPos : listOfPositions){
             if(!positionsUnderAttack.contains(avalPos)){
                 freePositions.add(avalPos);

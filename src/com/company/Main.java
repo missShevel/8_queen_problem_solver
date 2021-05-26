@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) throws CloneNotSupportedException {
         // write your code here
-        int[] pos = {0, 5, 0, 0, 0, 0, 0, 0};
+        int[] pos = {2, 5, 4, 1, 3, 7, 2, 4};
 
 //        Board b = new Board();
 //       // b.printBoard();
@@ -45,15 +45,16 @@ public class Main {
         LinkedList<StateNode> path = new LinkedList<>();
         //  ss.root.generateChildren(0);
         // LinkedList<StateNode> bfsSolution = ss.recreatePath(ss.BFS(ss.root));
-        LinkedList<StateNode> ldfsSolution = ss.recreatePath(ss.LDFS(2, ss.root).getState());
+        //LinkedList<StateNode> ldfsSolution = ss.recreatePath(ss.LDFS(2, ss.root).getState());
+        LinkedList<StateNode> idsSolution = ss.recreatePath(ss.IDS(ss.root).getState());
         LinkedList<Board> solution = new LinkedList<>();
 
-        if (ldfsSolution.isEmpty()) {
+        if (idsSolution.isEmpty()) {
 
             System.out.println("Solution wasn't found for this depth!");
 
         } else {
-            for (StateNode state : ldfsSolution) {
+            for (StateNode state : idsSolution) {
                 Board b = new Board();
                 b.setFigures(state.positions);
                 solution.add(b);
