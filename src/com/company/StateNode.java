@@ -6,8 +6,9 @@ public class StateNode implements Cloneable {
     int[] positions;
     ArrayList<StateNode> children;
     StateNode parent;
+    int depth;
 
-    public StateNode clone() throws CloneNotSupportedException {
+    protected StateNode clone() throws CloneNotSupportedException {
         StateNode clone = (StateNode) super.clone();
         clone.positions = this.positions.clone();
         return clone;
@@ -20,12 +21,14 @@ public class StateNode implements Cloneable {
         this.positions = pos;
         this.children = new ArrayList<>();
         this.parent = null;
+        this.depth = 0;
     }
 
     private StateNode(int[] pos, StateNode p) {
         this.positions = pos;
         this.children = new ArrayList<>();
         this.parent = p;
+        this.depth = p.depth + 1;
     }
 
 //    /**
@@ -47,12 +50,12 @@ public class StateNode implements Cloneable {
     }
 
 
-    public void generateChildren(int queenIndex) throws CloneNotSupportedException {
-
+    public void generateChildren(/*int queenIndex*/) throws CloneNotSupportedException {
+int queenIndex = this.depth;
         ArrayList<Integer> freePositions = findFreePositions(queenIndex);
 
        // int childrenCounter = 0;
-if(!freePositions.isEmpty()) {
+    if(!freePositions.isEmpty()) {
     for (int positionNumber : freePositions) {
         StateNode clone = this.clone();
         int[] newStateInfo = clone.positions;
@@ -72,7 +75,7 @@ if(!freePositions.isEmpty()) {
         return listOfPositions;
     }
 
-    public ArrayList<Integer> findFreePositions(int indexOfQueenToBePlaced) {
+    private ArrayList<Integer> findFreePositions(int indexOfQueenToBePlaced) {
         ArrayList<Integer> freePositions1 = new ArrayList<>();
         ArrayList<Integer> freePositions = new ArrayList<>();
         ArrayList<Integer> listOfPositions = generate();
@@ -97,7 +100,6 @@ if(!freePositions.isEmpty()) {
           }
         for(Integer avalPos : listOfPositions){
             if(!positionsUnderAttack.contains(avalPos)){
-//                if(avalPos != this.positions[indexOfQueenToBePlaced])
                 freePositions.add(avalPos);
             }
         }

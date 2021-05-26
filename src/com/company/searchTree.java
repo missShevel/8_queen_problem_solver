@@ -50,51 +50,104 @@ public class searchTree {
         return true;
     }
 
-    public LinkedList<StateNode> BFS(StateNode root) throws CloneNotSupportedException {
-       // int depth = 0;
-        int depth = 0;
+    public StateNode BFS(StateNode root) throws CloneNotSupportedException {
+
         Queue<StateNode> queue = new LinkedList<>();
         Queue<StateNode> queue1 = new LinkedList<>();
 
         if (checkState(root)) {
-            return recreatePath(root);
+            return root;
         }
         queue.add(root);
         while(true) {
-            StateNode v = null;
+            StateNode v;
             while (!queue.isEmpty()) {
                 v = queue.poll();
                 if (checkState(v)) {
-                    return recreatePath(v);
+                    return v;
                 }
-                v.generateChildren(depth);
+                v.generateChildren();
                 for (StateNode child : v.children) {
                     queue1.add(child);
                 }
             }
 
-//            if(path.size() == v.children.size()){
-//                depth++;
-//            }
-            //  path.add(v);
             while(!queue1.isEmpty()){
                 queue.add(queue1.poll());
             }
-            depth++;
+
         }
     }
 
-    private LinkedList<StateNode> recreatePath(StateNode state){
+    public LinkedList<StateNode> recreatePath(StateNode state){
         LinkedList<StateNode> path = new LinkedList<>();
+        if(state == null){
+            return path;
+        }
         path.add(state);
+        while(state.parent != null) {
             path.add(state.parent);
-
+            state = state.parent;
+        }
+        path.add(state);
         return path;
+    }
+
+    public DLSReturn LDFS(int max_depth, StateNode root) throws CloneNotSupportedException {
+        if(checkState(root)){
+            return new DLSReturn(root, DLSResult.SOLUTION);
+        }
+        else if(max_depth == 0){
+            return new DLSReturn(DLSResult.CUTOFF);
+        }
+        else {
+            boolean cutoff_occurred = false;
+            root.generateChildren();
+            for (StateNode child : root.children){
+                DLSReturn result = LDFS(max_depth - 1, child);
+                if(result.getResult() == DLSResult.CUTOFF){
+                    cutoff_occurred = true;
+                }
+                else if(result.getResult() != DLSResult.FAILURE){
+                    return result;
+                }
+            }
+            if(cutoff_occurred){
+                return new DLSReturn(DLSResult.CUTOFF);
+            }
+            return new DLSReturn(DLSResult.FAILURE);
+        }
+    }
+
+    static class DLSReturn {
+        private final StateNode state;
+        private final DLSResult result;
+
+        DLSReturn(DLSResult res){
+            this.result = res;
+            this.state = null;
+        }
+
+        DLSReturn(StateNode state, DLSResult res){
+            this.state = state;
+            this.result = res;
+        }
+
+        public StateNode getState(){
+            return this.state;
+        }
+        public DLSResult getResult(){
+            return this.result;
+        }
+    }
+
+    private enum DLSResult {
+        SOLUTION, CUTOFF, FAILURE
     }
 }
     /** TODO:
-     * BFS()
-     * LDFS()
+
+
      * IDS()
      *
      */
