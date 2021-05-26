@@ -50,31 +50,45 @@ public class searchTree {
         return true;
     }
 
-    public LinkedList<StateNode> BFS(StateNode root, int depth, Queue<StateNode> queue, LinkedList<StateNode> path) throws CloneNotSupportedException {
+    public LinkedList<StateNode> BFS(StateNode root) throws CloneNotSupportedException {
        // int depth = 0;
+        int depth = 0;
+        Queue<StateNode> queue = new LinkedList<>();
+        Queue<StateNode> queue1 = new LinkedList<>();
+
         if (checkState(root)) {
-            path.add(root);
-            return path;
+            return recreatePath(root);
         }
-        if(queue.isEmpty()) {
-            queue.add(root);
-        }
-        while (!queue.isEmpty()) {
-            StateNode v = queue.poll();
-            v.generateChildren(depth);
-            path.add(v);
-            if (checkState(v)) {
-               // queue.add(v);
-                return path;
+        queue.add(root);
+        while(true) {
+            StateNode v = null;
+            while (!queue.isEmpty()) {
+                v = queue.poll();
+                if (checkState(v)) {
+                    return recreatePath(v);
+                }
+                v.generateChildren(depth);
+                for (StateNode child : v.children) {
+                    queue1.add(child);
+                }
             }
 
-            for (StateNode child : v.children) {
-                queue.add(child);
-
+//            if(path.size() == v.children.size()){
+//                depth++;
+//            }
+            //  path.add(v);
+            while(!queue1.isEmpty()){
+                queue.add(queue1.poll());
             }
+            depth++;
         }
-        depth++;
-        BFS(queue.poll(), depth, queue, path);
+    }
+
+    private LinkedList<StateNode> recreatePath(StateNode state){
+        LinkedList<StateNode> path = new LinkedList<>();
+        path.add(state);
+            path.add(state.parent);
+
         return path;
     }
 }

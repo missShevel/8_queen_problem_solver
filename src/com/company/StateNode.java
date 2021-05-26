@@ -52,14 +52,15 @@ public class StateNode implements Cloneable {
         ArrayList<Integer> freePositions = findFreePositions(queenIndex);
 
        // int childrenCounter = 0;
-
-        for (int positionNumber : freePositions) {
-            StateNode clone = this.clone();
-            int[] newStateInfo = clone.positions;
-            newStateInfo[queenIndex] = positionNumber;
-            this.addChild(newStateInfo);
-           // childrenCounter++;
-        }
+if(!freePositions.isEmpty()) {
+    for (int positionNumber : freePositions) {
+        StateNode clone = this.clone();
+        int[] newStateInfo = clone.positions;
+        newStateInfo[queenIndex] = positionNumber;
+        this.addChild(newStateInfo);
+        // childrenCounter++;
+    }
+}
     }
 
     private ArrayList<Integer> generate() {
@@ -96,11 +97,10 @@ public class StateNode implements Cloneable {
           }
         for(Integer avalPos : listOfPositions){
             if(!positionsUnderAttack.contains(avalPos)){
-                if(avalPos != this.positions[indexOfQueenToBePlaced])
+//                if(avalPos != this.positions[indexOfQueenToBePlaced])
                 freePositions.add(avalPos);
             }
         }
-
         return freePositions;
 
     }

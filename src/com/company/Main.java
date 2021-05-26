@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) throws CloneNotSupportedException{
 	// write your code here
-        int [] pos = {0,3,1,7,1,4,0,5} ;
+        int [] pos = {0,5,0,0,0,0,0,0} ;
 
 //        Board b = new Board();
 //       // b.printBoard();
@@ -44,7 +44,7 @@ public class Main {
         Queue<StateNode> q = new LinkedList<>();
         LinkedList<StateNode> path = new LinkedList<>();
       //  ss.root.generateChildren(0);
-       LinkedList<StateNode> bfsSolution = ss.BFS(ss.root, 0, q, path);
+       LinkedList<StateNode> bfsSolution = ss.BFS(ss.root);
         LinkedList<Board> solution = new LinkedList<>();
 
 
