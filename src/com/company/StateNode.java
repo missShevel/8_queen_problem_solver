@@ -15,9 +15,6 @@ public class StateNode implements Cloneable {
     }
 
     private StateNode(int[] pos) {
-//        if (!checkRows(matrixPositions)){
-//           rowInsert(matrixPositions);
-//        }
         this.positions = pos;
         this.children = new ArrayList<>();
         this.parent = null;
@@ -31,12 +28,23 @@ public class StateNode implements Cloneable {
         this.depth = p.depth + 1;
     }
 
-//    /**
-//     * @param pos    - поточна перестановка
-//     * @param p      - попередня перестановка
-//     * @param number - номер перестановки конкретно цієї фігури (номер у списку дітей для подальшого пошуку)
-//     */
+    public static StateNode buildRoot(int[] pos) {
+        return new StateNode(pos);
+    }
 
+    public void generateChildren() throws CloneNotSupportedException {
+        int queenIndex = this.depth;
+        ArrayList<Integer> freePositions = findFreePositions(queenIndex);
+        if (!freePositions.isEmpty()) {
+            for (int positionNumber : freePositions) {
+                StateNode clone = this.clone();
+                int[] newStateInfo = clone.positions;
+                newStateInfo[queenIndex] = positionNumber;
+                this.addChild(newStateInfo);
+
+            }
+        }
+    }
 
     private void addChild(int[] pos) {
 
@@ -45,40 +53,10 @@ public class StateNode implements Cloneable {
 
     }
 
-    public static StateNode buildRoot(int[] pos) {
-        return new StateNode(pos);
-    }
-
-
-    public void generateChildren(/*int queenIndex*/) throws CloneNotSupportedException {
-int queenIndex = this.depth;
-        ArrayList<Integer> freePositions = findFreePositions(queenIndex);
-
-       // int childrenCounter = 0;
-    if(!freePositions.isEmpty()) {
-    for (int positionNumber : freePositions) {
-        StateNode clone = this.clone();
-        int[] newStateInfo = clone.positions;
-        newStateInfo[queenIndex] = positionNumber;
-        this.addChild(newStateInfo);
-        // childrenCounter++;
-    }
-}
-    }
-
-    private ArrayList<Integer> generate() {
-        ArrayList<Integer> listOfPositions = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            listOfPositions.add(i);
-
-        }
-        return listOfPositions;
-    }
-
     private ArrayList<Integer> findFreePositions(int indexOfQueenToBePlaced) {
         ArrayList<Integer> freePositions1 = new ArrayList<>();
         ArrayList<Integer> freePositions = new ArrayList<>();
-        ArrayList<Integer> listOfPositions = generate();
+        ArrayList<Integer> listOfPositions = new ArrayList<>(List.of(0, 1, 2, 3, 4, 5, 6, 7));
         int s = listOfPositions.size();
         Set<Integer> positionsUnderAttack = new HashSet<>();
 
@@ -87,21 +65,21 @@ int queenIndex = this.depth;
             positionsUnderAttack.add(this.positions[i] - indexOfQueenToBePlaced - i);
 
         }
-          for(Integer avalPos : listOfPositions){
-              if(!positionsUnderAttack.contains(avalPos)){
-                  freePositions1.add(avalPos);
-              }
-          }
-          for(int j = 0; j < freePositions1.size(); j++){
-              for(int k = 0; k < indexOfQueenToBePlaced; k++){
-                  if(freePositions1.get(j) == this.positions[k]){
-                      positionsUnderAttack.add(freePositions1.get(j));
-                  }
-              }
-          }
+        for (Integer avalPos : listOfPositions) {
+            if (!positionsUnderAttack.contains(avalPos)) {
+                freePositions1.add(avalPos);
+            }
+        }
+        for (Integer integer : freePositions1) {
+            for (int k = 0; k < indexOfQueenToBePlaced; k++) {
+                if (integer == this.positions[k]) {
+                    positionsUnderAttack.add(integer);
+                }
+            }
+        }
 
-        for(Integer avalPos : listOfPositions){
-            if(!positionsUnderAttack.contains(avalPos)){
+        for (Integer avalPos : listOfPositions) {
+            if (!positionsUnderAttack.contains(avalPos)) {
                 freePositions.add(avalPos);
             }
         }

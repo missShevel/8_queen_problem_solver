@@ -3,37 +3,64 @@ package com.company;
 import java.util.ArrayList;
 
 public class Board {
-    int [][] board  = new int[8][8];
+    int [][] board = new int [8][8];
 
     public Board(int [][] m){
         for (int i = 0; i < 8; i++){
-            for (int j = 0; j < 8; j++){
-                this.board[i][j] = m[i][j];
-            }
+            System.arraycopy(m[i], 0, this.board[i], 0, 8);
         }
     }
     public Board(){
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
+                assert false;
                 this.board[i][j] = 0;
             }
         }
     }
-    private boolean checkNumberOfFigures(){
+
+    public Board(ArrayList<Integer> squareNumbers){
+        this.board = squareNumbersToBoard(squareNumbers);
+    }
+
+    public ArrayList<Integer> boardToSquareNumbers(){
+        ArrayList<Integer> result = new ArrayList<>();
         int counter = 0;
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
-                if(this.board[i][j] == 1) {
-                    counter++;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                counter++;
+                if(this.board[i][j] != 0){
+                    result.add(counter);
                 }
             }
         }
-        return (counter == 8);
+        return result;
     }
 
-    public void rowsInsert() {
+    public int[][] squareNumbersToBoard(ArrayList<Integer> squareNumbers){
+        int[][] boardMatrix = new int[8][8];
+        for(int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++) {
+                boardMatrix[i][j] = 0;
+            }
+        }
+        int i = 0;
+        int koef = 8;
+        for(Integer n : squareNumbers) {
+            koef *= i;
+            for (int j = koef; j < koef + 8; j++) {
+                boardMatrix[i][n - 1 - koef] = 1;
+
+            }
+            i++;
+            koef = 8;
+        }
+
+        return boardMatrix;
+    }
+
+    private void rowsInsert() {
         ArrayList<Integer> indexes = this.findIndexesToBePlacedInFreeRows();
-        System.out.println(indexes);
         int pos = 0;
         for (int i = 0; i < 8; i++) {
             if (isEmptyRow(board[i])) {
@@ -101,7 +128,9 @@ public class Board {
     }
 
     public int[] boardToPositionsList(){
-
+        if(!this.checkRows()){
+            this.rowsInsert();
+        }
         int [] figuresPositions = new int[8];
         for(int i = 0; i < this.board.length; i++){
             for(int j = 0; j < this.board.length; j++){
@@ -112,12 +141,13 @@ public class Board {
         return figuresPositions;
     }
 
-    public void setFigures(int [] positions){
+    public void setFigures(int[] positions){
         for (int i = 0; i < 8; i++){
             this.board[i][positions[i]] = 1;
         }
     }
 
+/* should be removed */
     public void printBoard(){
         for (int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
