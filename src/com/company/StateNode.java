@@ -28,10 +28,12 @@ public class StateNode implements Cloneable {
         this.depth = p.depth + 1;
     }
 
+    /* Метод для ініціалізації кореня дерева */
     public static StateNode buildRoot(int[] pos) {
         return new StateNode(pos);
     }
 
+    /* Метод для розвертання вузла */
     public void generateChildren() throws CloneNotSupportedException {
         int queenIndex = this.depth;
         ArrayList<Integer> freePositions = findFreePositions(queenIndex);
@@ -46,13 +48,14 @@ public class StateNode implements Cloneable {
         }
     }
 
+    /* Метод для додавання дочірніх вузлів */
     private void addChild(int[] pos) {
 
         StateNode child = new StateNode(pos, this);
         this.children.add(child);
 
     }
-
+    /* Метод для знаходження варіантів розстановки фігури в дочірніх вузлах для їх ініціалізації */
     private ArrayList<Integer> findFreePositions(int indexOfQueenToBePlaced) {
         ArrayList<Integer> freePositions1 = new ArrayList<>();
         ArrayList<Integer> freePositions = new ArrayList<>();

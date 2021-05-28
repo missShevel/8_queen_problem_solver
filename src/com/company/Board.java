@@ -10,6 +10,7 @@ public class Board {
             System.arraycopy(m[i], 0, this.board[i], 0, 8);
         }
     }
+
     public Board(){
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
@@ -23,6 +24,7 @@ public class Board {
         this.board = squareNumbersToBoard(squareNumbers);
     }
 
+/* Метод переведення матриці, яка представляє дошку, у масив номерів клітинок, у яких стоять фігури */
     public ArrayList<Integer> boardToSquareNumbers(){
         ArrayList<Integer> result = new ArrayList<>();
         int counter = 0;
@@ -36,7 +38,7 @@ public class Board {
         }
         return result;
     }
-
+    /* Метод переведення масиву номерів клітинок, у яких стоять фігури, у матрицю, яка представляє дошку */
     public int[][] squareNumbersToBoard(ArrayList<Integer> squareNumbers){
         int[][] boardMatrix = new int[8][8];
         for(int i = 0; i < 8; i++){
@@ -58,7 +60,7 @@ public class Board {
 
         return boardMatrix;
     }
-
+/* Метод, для розстановки фігур в окремі рядки */
     private void rowsInsert() {
         ArrayList<Integer> indexes = this.findIndexesToBePlacedInFreeRows();
         int pos = 0;
@@ -69,7 +71,7 @@ public class Board {
             }
         }
     }
-
+    /* Метод для перевірки наявності фігури у рядку */
     private boolean isEmptyRow(int [] row){
         for (int i = 0; i < 8; i++) {
             if(row[i] == 1){
@@ -78,7 +80,7 @@ public class Board {
         }
         return true;
     }
-
+    /* Метод для знаходження номерів колонок у вільних рядках, у які буде посталено фігури*/
     private ArrayList<Integer> findIndexesToBePlacedInFreeRows(){
         ArrayList<Integer> indexes = new ArrayList<>();
         if(!this.checkRows()){
@@ -100,7 +102,7 @@ public class Board {
         }
         return indexes;
     }
-
+    /* Метод перевірки випадку наявності декількох фігур в будь-якому рядку дошки*/
     private boolean checkRows() {
         int queensPerRow = 0;
         for (int i = 0; i < 8; i++) {
@@ -116,7 +118,7 @@ public class Board {
         }
         return true;
     }
-
+    /* Метод перевірки наяності декількох фігур в конкретному рядку дошки*/
     private boolean checkIfRowHasMoreThanOneQueen(int[] row){
         int c = 0;
         for (int i = 0; i < 8; i++) {
@@ -126,7 +128,8 @@ public class Board {
         }
         return (c > 1);
     }
-
+    /* Метод для представлення матриці у вигляді масиву номерів колонок
+    (порядковий номер у масиві - це номер рядка, а значення, яке знаходиться під цим номером - номер колонки) */
     public int[] boardToPositionsList(){
         if(!this.checkRows()){
             this.rowsInsert();
@@ -140,20 +143,11 @@ public class Board {
         }
         return figuresPositions;
     }
-
+    /* Метод переведення масиву номерів колонок в матрицю розстановки*/
     public void setFigures(int[] positions){
         for (int i = 0; i < 8; i++){
             this.board[i][positions[i]] = 1;
         }
     }
 
-/* should be removed */
-    public void printBoard(){
-        for (int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
-                System.out.print(this.board[i][j] + " ");
-            }
-            System.out.print("\n");
-        }
-    }
 }

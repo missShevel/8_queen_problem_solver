@@ -17,17 +17,17 @@ public class SearchTree {
         this.solutionMethod = solutionMethod;
         this.depthForLDFS = d;
     }
-
-    public ArrayList<ArrayList<Integer>> findSolution(ArrayList<int[]> traversal, int depth) throws CloneNotSupportedException {
+/* Метод для знаходження правильного шляху у дереві вирішення задачі*/
+    public ArrayList<ArrayList<Integer>> findSolution(ArrayList<int[]> traversal) throws CloneNotSupportedException {
         ArrayList<ArrayList<Integer>> solution= new ArrayList<>();
         LinkedList<StateNode> path = new LinkedList<>();
         if(!this.solutionMethod.isEmpty()){
             switch (this.solutionMethod) {
                 case "BFS" -> path = recreatePath(BFS(this.root, traversal));
-                case "LDFS" -> path = recreatePath(LDFS(this.depthForLDFS, this.root,traversal).getState());
-                case "IDS" -> path = recreatePath(IDS(this.root,traversal).getState());
+                case "LDFS" -> path = recreatePath(LDFS(this.depthForLDFS, this.root, traversal).getState());
+                case "IDS" -> path = recreatePath(IDS(this.root, traversal).getState());
             }
-            depth += path.get(0).depth;
+
             Collections.reverse(path);
 
             for(StateNode s : path){
@@ -38,7 +38,7 @@ public class SearchTree {
         }
         return solution;
     }
-
+/* Метод для перевірки поточного стану на правильність */
     private boolean checkState(StateNode currentState) {
         boolean solutionStatus = checkColumns(currentState);
         if (solutionStatus) {
@@ -46,7 +46,7 @@ public class SearchTree {
         }
         return solutionStatus;
     }
-
+    /* Метод для певірки того, чи знаходяться будь-які фігури в одному стовбці */
     private boolean checkColumns(StateNode currentState) {
         for (int i = 0; i < 8; i++) {
             for (int j = i + 1; j < 8; j++) {
@@ -57,7 +57,7 @@ public class SearchTree {
         }
         return true;
     }
-
+    /* Метод для певірки того, чи знаходяться будь-які фігури на одній діагоналі */
     private boolean checkDiagonals(StateNode currentState) {
         for (int i = 0; i < 8; i++) {
             int[] checkedItem = {i, currentState.positions[i]};
@@ -70,8 +70,8 @@ public class SearchTree {
         }
         return true;
     }
-
-    private StateNode BFS(StateNode root,ArrayList<int[]> traversal) throws CloneNotSupportedException {
+    /* Метод для пошуку рішення у дереві за алгоритмом BFS */
+    private StateNode BFS(StateNode root, ArrayList<int[]> traversal) throws CloneNotSupportedException {
 
         Queue<StateNode> queue = new LinkedList<>();
         Queue<StateNode> queue1 = new LinkedList<>();
@@ -87,6 +87,7 @@ public class SearchTree {
                 v = queue.poll();
                 traversal.add(v.positions);
                 if (checkState(v)) {
+                    traversal.add(new int[]{v.depth});
                     return v;
                 }
                 v.generateChildren();
@@ -98,10 +99,11 @@ public class SearchTree {
 
         }
     }
-
+    /* Метод для пошуку рішення у дереві за алгоритмом LDFS */
     private DLSReturn LDFS(int max_depth, StateNode root, ArrayList<int[]> traversal) throws CloneNotSupportedException {
         if (checkState(root)) {
             traversal.add(root.positions);
+            traversal.add(new int[]{root.depth});
             return new DLSReturn(root, DLSResult.SOLUTION);
         } else if (max_depth == 0) {
             return new DLSReturn(DLSResult.CUTOFF);
@@ -123,7 +125,7 @@ public class SearchTree {
             return new DLSReturn(DLSResult.FAILURE);
         }
     }
-
+    /* Метод для пошуку рішення у дереві за алгоритмом IDS */
     private DLSReturn IDS(StateNode root, ArrayList<int[]> traversal) throws CloneNotSupportedException {
         DLSReturn cutoff = new DLSReturn(DLSResult.CUTOFF);
         for (int i = 1; i < Integer.MAX_VALUE; i++) {
@@ -134,7 +136,7 @@ public class SearchTree {
         }
         return new DLSReturn(DLSResult.FAILURE);
     }
-
+    /* Метод для відтворення шляху від знайденого рішення до початкового стану */
     private LinkedList<StateNode> recreatePath(StateNode state) {
         LinkedList<StateNode> path = new LinkedList<>();
         if (state == null) {
@@ -148,8 +150,8 @@ public class SearchTree {
         path.add(state);
         return path;
     }
-
-    static class DLSReturn {
+/* Внутрішній допоміжний клас для реалізації алгоритму LDFS / IDS */
+    private static class DLSReturn {
         private final StateNode state;
         private final DLSResult result;
 
@@ -171,7 +173,7 @@ public class SearchTree {
             return this.result;
         }
     }
-
+    /* Структура для поевернення результатів у алгоритмах LDFS / IDS */
     private enum DLSResult {
         SOLUTION, CUTOFF, FAILURE
     }
