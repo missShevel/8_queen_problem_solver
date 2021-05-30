@@ -24,7 +24,11 @@ class EightQueenPanel extends JPanel {
     private ArrayList<Integer> inputArray = new ArrayList<>();
     ArrayList<ArrayList<Integer>> solutionArray = new ArrayList<>();
     int index = 0;
-
+/*TODO:
+1. radioButtons for methods (BFS, LDFS, IDS)
+2. textArea for depth for LDFS
+3. remove rastavlyau korolev
+* **/
     public EightQueenPanel() {
         setLayout(new FlowLayout(FlowLayout.LEADING));
         setBackground(Color.cyan);
