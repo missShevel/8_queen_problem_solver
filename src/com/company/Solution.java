@@ -32,7 +32,6 @@ public class Solution {
         SearchTree ss = new SearchTree(positions, method);
         this.solution = ss.findSolution(traversalStr);
         this.traversal = traversalStr;
-
     }
 
     public Solution (ArrayList<Integer> input, String method, int depth) throws CloneNotSupportedException {

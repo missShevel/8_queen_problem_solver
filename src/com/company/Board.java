@@ -46,18 +46,12 @@ public class Board {
                 boardMatrix[i][j] = 0;
             }
         }
-        int i = 0;
-        int koef = 8;
         for(Integer n : squareNumbers) {
-            koef *= i;
-            for (int j = koef; j < koef + 8; j++) {
-                boardMatrix[i][n - 1 - koef] = 1;
 
-            }
-            i++;
-            koef = 8;
+            int row = (n/8)+1;
+            int col = n-(row-1)*8 ;
+        boardMatrix[row-1][col] = 1;
         }
-
         return boardMatrix;
     }
 /* Метод, для розстановки фігур в окремі рядки */
