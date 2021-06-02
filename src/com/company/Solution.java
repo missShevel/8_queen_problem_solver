@@ -10,14 +10,18 @@ public class Solution {
     public ArrayList<ArrayList<Integer>> getSolution() {
         return this.solution;
     }
-    /* Метод для отримання списку вузлів, зо було перевірено алгоритмом у дереві */
+    /* Метод для отримання списку вузлів, що було перевірено алгоритмом у дереві */
     public String getTraversal() {
         StringBuilder result = new StringBuilder();
         for (int[] state : this.traversal){
             if(state != this.traversal.get(this.traversal.size() - 1)){
                 result.append(Arrays.toString(state)).append("\n");
             } else {
-                result.append("The solution was found on depth ").append(Arrays.toString(state));
+                if(!this.getSolution().isEmpty()) {
+                    result.append("The solution was found on depth ").append(Arrays.toString(state));
+                } else {
+                    result.append(Arrays.toString(state)).append("\nThe solution was not found on this depth");
+                }
             }
         }
 

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 class EightQueenPanel extends JPanel {
     private Timer timer;
-    private String str = "Rastavlay korolev";
+    private String str = "Place the queens to the board";
     private String algoritm;
     private JPanel gui;
     private int count = 0;
@@ -87,11 +87,11 @@ class EightQueenPanel extends JPanel {
             }
             if (inputArray.size() < 8) {
                 inputArray.clear();
-                textArea.setText("Malo korolev");
+                textArea.setText("Set more queens");
                 return;
             }
             try {
-                solution = new Solution(inputArray, algoritm, 8);
+                solution = new Solution(inputArray, algoritm, 4);
                 if (solutionArray.isEmpty()) {
                     solutionArray = solution.getSolution();
                     textArea.setText(solution.getTraversal());
@@ -100,7 +100,7 @@ class EightQueenPanel extends JPanel {
                 e.printStackTrace();
             }
 
-            File pic = new File("/Users/user/Downloads/src/out/production/Downloads/queen.png");
+            File pic = new File("src/com/company/queen.png");
             ImageIcon icon = new ImageIcon(pic.toString());
             icon.setImage(icon.getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));
 
@@ -149,7 +149,7 @@ class EightQueenPanel extends JPanel {
             gui.remove(board);
             board = createBoard();
             gui.add(board);
-            str = "Rastavlay korolev";
+            str = "Place the queens to the board";
             textArea.setText(str);
             revalidate();
             repaint();
@@ -175,7 +175,7 @@ class EightQueenPanel extends JPanel {
                 if (count < 8)
                     if (btnForClick.getIcon() == null) {
                         try {
-                            File pic = new File("/Users/user/Downloads/src/out/production/Downloads/queen.png");
+                            File pic = new File("src/com/company/queen.png");
                             ImageIcon icon = new ImageIcon(pic.toString());
                             icon.setImage(icon.getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));
                             btnForClick.setIcon(icon);

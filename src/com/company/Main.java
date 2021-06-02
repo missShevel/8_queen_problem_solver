@@ -18,7 +18,7 @@ public class Main {
                 EventQueue.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        JFrame mainFrame = new JFrame("Test");
+                        JFrame mainFrame = new JFrame("8Queens");
                         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         EightQueenPanel queenFrame = new EightQueenPanel();
                         mainFrame.setSize(560, 1000);
