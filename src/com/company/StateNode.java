@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.*;
 
-public class StateNode implements Cloneable {
+    public class StateNode implements Cloneable {
     int[] positions;
     ArrayList<StateNode> children;
     StateNode parent;

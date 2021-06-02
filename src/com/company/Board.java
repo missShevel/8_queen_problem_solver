@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class Board {
     int [][] board = new int [8][8];
-
+/* Ініціалізація матриці-дошки із заданої */
     public Board(int [][] m){
         for (int i = 0; i < 8; i++){
             System.arraycopy(m[i], 0, this.board[i], 0, 8);
         }
     }
-
+    /*Ініціалізація порожньої матриці-дошки */
     public Board(){
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
@@ -19,7 +19,7 @@ public class Board {
             }
         }
     }
-
+/* Ініціалізація матриці-дошки керуючись розставленими фігурами на графічному інтерфейсі */
     public Board(ArrayList<Integer> squareNumbers){
         this.board = squareNumbersToBoard(squareNumbers);
     }

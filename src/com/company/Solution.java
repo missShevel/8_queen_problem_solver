@@ -6,11 +6,11 @@ public class Solution {
     ArrayList<ArrayList<Integer>> solution;
     ArrayList<int[]> traversal = new ArrayList<>();
 
-
+    /* Метод для отримання списку станів, які є послідовністю вирішення */
     public ArrayList<ArrayList<Integer>> getSolution() {
         return this.solution;
     }
-
+    /* Метод для отримання списку вузлів, зо було перевірено алгоритмом у дереві */
     public String getTraversal() {
         StringBuilder result = new StringBuilder();
         for (int[] state : this.traversal){

@@ -2,22 +2,24 @@ package com.company;
 import java.util.*;
 import static com.company.StateNode.buildRoot;
 
-public class SearchTree {
+    public class SearchTree {
     StateNode root;
     int depthForLDFS;
     String solutionMethod;
 
+    /* Ініціалізація дерева станів */
     public SearchTree(int[] pos, String solutionMethod) {
         this.root = buildRoot(pos);
         this.solutionMethod = solutionMethod;
     }
 
+    /* Ініціалізація дерева станів заданої глибини */
     public SearchTree(int[] pos, String solutionMethod, int d) {
         this.root = buildRoot(pos);
         this.solutionMethod = solutionMethod;
         this.depthForLDFS = d;
     }
-/* Метод для знаходження правильного шляху у дереві вирішення задачі*/
+    /* Метод для знаходження правильного шляху у дереві вирішення задачі*/
     public ArrayList<ArrayList<Integer>> findSolution(ArrayList<int[]> traversal) throws CloneNotSupportedException {
         ArrayList<ArrayList<Integer>> solution= new ArrayList<>();
         LinkedList<StateNode> path = new LinkedList<>();
@@ -38,7 +40,7 @@ public class SearchTree {
         }
         return solution;
     }
-/* Метод для перевірки поточного стану на правильність */
+    /* Метод для перевірки поточного стану на правильність */
     private boolean checkState(StateNode currentState) {
         boolean solutionStatus = checkColumns(currentState);
         if (solutionStatus) {
@@ -105,14 +107,14 @@ public class SearchTree {
             traversal.add(root.positions);
             traversal.add(new int[]{root.depth});
             return new DLSReturn(root, DLSResult.SOLUTION);
-        } else if (max_depth == 0) {
+        } else if (/*max_depth == 0*/max_depth == root.depth) {
             return new DLSReturn(DLSResult.CUTOFF);
         } else {
             boolean cutoff_occurred = false;
             traversal.add(root.positions);
             root.generateChildren();
             for (StateNode child : root.children) {
-                DLSReturn result = LDFS(max_depth - 1, child, traversal);
+                DLSReturn result = LDFS(max_depth/*-1*/, child, traversal);
                 if (result.getResult() == DLSResult.CUTOFF) {
                     cutoff_occurred = true;
                 } else if (result.getResult() != DLSResult.FAILURE) {
@@ -155,20 +157,21 @@ public class SearchTree {
         private final StateNode state;
         private final DLSResult result;
 
+       /* Конструктор результату роботи алгоритму */
         DLSReturn(DLSResult res) {
             this.result = res;
             this.state = null;
         }
-
+    /* Конструктор успішного результату роботи алгоритму та його кінцевого стану */
         DLSReturn(StateNode state, DLSResult res) {
             this.state = state;
             this.result = res;
         }
-
+    /* Метод отримання стану із об'єкта результату */
         public StateNode getState() {
             return this.state;
         }
-
+    /* Метод отримання статуса із об'єкта результату */
         public DLSResult getResult() {
             return this.result;
         }
