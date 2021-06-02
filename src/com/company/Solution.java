@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class Solution {
     ArrayList<ArrayList<Integer>> solution;
     ArrayList<int[]> traversal = new ArrayList<>();
+    boolean isFound = true;
 
     /* Метод для отримання списку станів, які є послідовністю вирішення */
     public ArrayList<ArrayList<Integer>> getSolution() {
@@ -12,6 +13,7 @@ public class Solution {
     }
     /* Метод для отримання списку вузлів, що було перевірено алгоритмом у дереві */
     public String getTraversal() {
+
         StringBuilder result = new StringBuilder();
         for (int[] state : this.traversal){
             if(state != this.traversal.get(this.traversal.size() - 1)){
@@ -45,6 +47,9 @@ public class Solution {
         SearchTree ss = new SearchTree(positions, method, depth);
         this.solution = ss.findSolution(traversalStr);
         this.traversal = traversalStr;
+        if(this.solution.isEmpty()){
+            this.isFound = false;
+        }
     }
 
 }
